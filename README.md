@@ -15,10 +15,11 @@ could render the chat like a "real" chat.
 - You can select the conversations you want to read
 
 ### Features
-- Shows all conversations
-- Loads messages with paging (loads more messages if you scroll down)
-- Shows chat messages like a real chat (time, sender, left: if you recieved it; right: if you sent it)
-- Parses smileys like `<ss type="smile">:)</s>` as `:)`
+- Shows all conversations!
+- Loads messages with paging (loads more messages if you scroll down)!
+- Shows chat messages like a real chat (time, sender, left: if you recieved it; right: if you sent it)!
+- Parses smileys like `<ss type="smile">:)</s>` as `:)`!
+- Search in chat using the searchbox!
 
 ### Screenshot
 
