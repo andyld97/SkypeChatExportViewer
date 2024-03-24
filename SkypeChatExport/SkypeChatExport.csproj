@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="resources\icons\about.png" />
+    <None Remove="resources\icons\clear.png" />
+    <None Remove="resources\icons\icon.png" />
+    <None Remove="resources\icons\logo.png" />
+    <None Remove="resources\icons\open.png" />
+    <None Remove="resources\icons\skype.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\icons\about.png" />
+    <Resource Include="resources\icons\clear.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotnetRuntimeBootstrapper" Version="2.5.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\icons\icon.png" />
+    <Resource Include="resources\icons\logo.png" />
+    <Resource Include="resources\icons\open.png" />
+    <Resource Include="resources\icons\skype.png" />
+  </ItemGroup>
+
+</Project>

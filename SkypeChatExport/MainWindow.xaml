@@ -1,0 +1,86 @@
+﻿<Window x:Class="SkypeChatExport.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Icon="resources/icons/skype.png"
+        WindowStartupLocation="CenterScreen"
+        Title="Skype Chat Viewer" Width="1024" Height="768">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Menu Padding="2">
+                <MenuItem Header="File">
+                    <MenuItem x:Name="MenuOpenFile" Click="MenuOpenFile_Click" Header="Open Skype Main DB">
+                        <MenuItem.Icon>
+                            <Image Source="resources/icons/open.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="MenuAbout" Click="MenuAbout_Click" Header="About">
+                        <MenuItem.Icon>
+                            <Image Source="resources/icons/about.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="ButtonExit" Click="ButtonExit_Click" Header="Exit">
+                        <MenuItem.Icon>
+                            <Image Source="resources/icons/clear.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="2">
+                <TextBlock Text="Select Conversation:" FontWeight="Bold" Margin="2" />
+                <ComboBox x:Name="Conversations" SelectionChanged="Conversations_SelectionChanged" Margin="2" Padding="4">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding DisplayName}"/>
+                                <Run Text="(" Foreground="LightGray" /><Run Text="{Binding Identity}" Foreground="LightGray" /><Run Text=")" Foreground="LightGray" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Text="Search:" Margin="2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBox x:Name="TextSearch" TextChanged="TextSearch_TextChanged" Padding="2" Margin="2" />
+                    <Button x:Name="ButtonClearSearch" Click="ButtonClearSearch_Click"  Grid.Column="1" Margin="2" ToolTip="Clear search">
+                        <Image Source="resources/icons/clear.png" Width="24" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="0,5,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="2">
+                    <TextBlock Text="Chat:" Margin="2" FontWeight="Bold" />
+                </StackPanel>
+
+                <Border Grid.Row="1" Background="#1B1D20">
+                    <ScrollViewer x:Name="MainScrollviewer" ScrollChanged="MainScrollviewer_ScrollChanged" Grid.Row="1">
+                        <Grid>
+                            <TextBlock x:Name="TextNoMessagesFound" Visibility="Hidden" Text="No messages found!" FontWeight="Bold" FontSize="34" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" />
+                            <StackPanel x:Name="Messages" />
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

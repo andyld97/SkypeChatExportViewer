@@ -1,0 +1,40 @@
+﻿<Window x:Class="SkypeChatExport.Controls.Dialogs.AboutDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Icon="../../resources/icons/skype.png"
+        ResizeMode="NoResize"
+        Title="About" SizeToContent="Height" Width="350">
+    <StackPanel>
+        <Image Source="../../resources/icons/logo.png" Width="200" Margin="0,15,0,0"/>
+        <TextBlock Margin="5,10,0,0" Padding="0,0,0,10" HorizontalAlignment="Center">
+            <Run Text="Programmed by Andreas L." FontWeight="Bold"/>
+            <LineBreak />
+            <LineBreak />
+            <Run Text="Many thanks to ..." FontWeight="Bold" />
+            <LineBreak />
+            <LineBreak />
+            <Run Text="... to" />
+            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="http://www.google.com">Icons8</Hyperlink>
+            <Run Text="for the free icons!" />
+            <LineBreak />
+            <Run Text="... to" />
+            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="http://www.google.com">Tyrrrz/DotnetRuntimeBootstrapper (GitHub)</Hyperlink>
+
+            <LineBreak />
+            <LineBreak />
+            <Run Text="This is an alpha-version!" FontWeight="Bold" Foreground="Red" />
+            <LineBreak />
+            <LineBreak />
+            
+            <Run Text="Version:" />
+            <Run Text="1.0.0" FontWeight="Bold" />
+            <LineBreak />
+            <Run Text="Release:" />
+            <Run Text="24/03/2024" FontWeight="Bold" />
+        </TextBlock>
+    </StackPanel>
+</Window>
