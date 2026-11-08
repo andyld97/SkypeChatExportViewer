@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Assets/" />
+  <Folder Name="/Assets/Screenshots/">
+    <File Path="Assets/Screenshots/Program.png" />
+  </Folder>
+  <Project Path="SkypeChatExport/SkypeChatExport.csproj" />
+</Solution>

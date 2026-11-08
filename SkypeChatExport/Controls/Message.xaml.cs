@@ -9,14 +9,18 @@ namespace SkypeChatExport.Controls
     /// </summary>
     public partial class Message : UserControl
     {
+        private ChatMessage message;
+
         public Message(ChatMessage message)
         {
             InitializeComponent();
+            this.message = message;
             Update(message);
         }
 
         public void Update(ChatMessage message)
         {
+            this.message = message;
             string msg = message.Message;
 
             // Replace <ss type="smile">:)</ss> (but tags only) 
@@ -24,10 +28,16 @@ namespace SkypeChatExport.Controls
 
             TextMessage.Text = msg;
             TextName.Text = message.Author;
-            TextDate.Text = message.DateTime.ToString("dd.MM.yyyy HH:mm");
+            TextDate.Text = message.DateTime.ToString("g");
         }
 
         [GeneratedRegex("<.*?>")]
         private static partial Regex StripXMLTagsRegex();
+
+        private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                System.Windows.Clipboard.SetText(message.Message);
+        }
     }
 }

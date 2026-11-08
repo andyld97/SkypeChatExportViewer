@@ -23,18 +23,15 @@
             <LineBreak />
             <Run Text="... to" />
             <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="http://www.google.com">Tyrrrz/DotnetRuntimeBootstrapper (GitHub)</Hyperlink>
-
-            <LineBreak />
-            <LineBreak />
-            <Run Text="This is an alpha-version!" FontWeight="Bold" Foreground="Red" />
+            
             <LineBreak />
             <LineBreak />
             
             <Run Text="Version:" />
-            <Run Text="1.0.0" FontWeight="Bold" />
+            <Run x:Name="TextVersion" Text="1.0.0" FontWeight="Bold" />
             <LineBreak />
             <Run Text="Release:" />
-            <Run Text="24/03/2024" FontWeight="Bold" />
+            <Run Text="08/11/2026" FontWeight="Bold" />
         </TextBlock>
     </StackPanel>
 </Window>

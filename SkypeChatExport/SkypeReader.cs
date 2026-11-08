@@ -9,6 +9,8 @@ namespace SkypeChatExport
     {
         private readonly string databaseFile;
 
+        private Dictionary<int, int> chatMessagesCount = [];
+
         public SkypeReader(string databaseFile)
         {
             this.databaseFile = databaseFile;
@@ -16,6 +18,40 @@ namespace SkypeChatExport
 
             if (!System.IO.File.Exists(databaseFile))
                 throw new FileNotFoundException("database file not found!");
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsAsync()
+        {
+            List<Account> accounts = [];
+
+            using (var connection = new SqliteConnection($"Data Source={databaseFile}"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT id, skypename, fullname, birthday, city, emails, id FROM Accounts";
+
+                // Type = 1 seem to be normal people!
+                command.Parameters.AddWithValue("$type", 1);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var id = await GetStringValueAsync(reader, 0);
+                        var skypeName = await GetStringValueAsync(reader, 1);
+                        var fullName = await GetStringValueAsync(reader, 2);
+                        var birthday = Helper.DateTimeHelper.ParseSkypeBirthday(reader.GetString(3))?.Date;
+                        var city = await GetStringValueAsync(reader, 4);
+                        var emails = await GetStringValueAsync(reader, 5);
+
+                        accounts.Add(new Account() { ID = id, SkypeName = skypeName, FullName = fullName, Birthday = birthday, City = city, Emails = emails });
+                    }
+                }
+            }
+
+
+            return accounts;
         }
 
         public async Task<IEnumerable<Conversation>> ReadConversationsAsync()
@@ -46,11 +82,9 @@ namespace SkypeChatExport
             }
 
             return result;
-        }
+        }        
 
-        private Dictionary<int, int> chatMessagesCount = new Dictionary<int, int>();    
-
-        public async Task<ChatResult> LoadChatAsync(Conversation conversation, int page = 1, string? search = null)
+        public async Task<ChatResult> LoadChatAsync(Conversation conversation, string? skypeName, int page = 1, string? search = null)
         {
             ChatResult result = new ChatResult();
 
@@ -116,11 +150,15 @@ namespace SkypeChatExport
                         var chatname = await GetStringValueAsync(reader, 4);
                         var sending_state = await GetStringValueAsync(reader, 5);
 
+                        bool isOwnChat = author == skypeName;
+                        if (string.IsNullOrEmpty(skypeName))
+                            isOwnChat = (sending_state != null);
+
                         result.Messages.Add(new ChatMessage(body ?? string.Empty)
                         {
                             DateTime = timestamp,
                             Author = from_dispname ?? author ?? string.Empty,
-                            IsOwnChat = (sending_state != null)
+                            IsOwnChat = isOwnChat,
                         });
                     }
                 }

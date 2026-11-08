@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SkypeChatExport.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="320">
-    <Border Background="#1C2633" CornerRadius="10">
+    <Border Background="#1C2633" CornerRadius="10" Cursor="Hand" MouseDown="Border_MouseDown" ToolTip="Copy to Clipboard">
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -15,7 +15,7 @@
 
             <Grid>
                 <TextBlock x:Name="TextName" FontWeight="Bold" Margin="5" Text="Test" Foreground="#F2749A" VerticalAlignment="Center" />
-                <TextBlock x:Name="TextDate" FontWeight="Bold" Margin="5" Text="Test2" FontSize="10" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right" />
+                <TextBlock x:Name="TextDate" FontWeight="Bold" Margin="5" Text="Date" FontSize="10" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Right" />
             </Grid>
             
             <TextBlock Grid.Row="1" FontSize="14" Margin="5" x:Name="TextMessage" Foreground="White" TextWrapping="Wrap" />

@@ -1,4 +1,6 @@
-﻿namespace SkypeChatExport.Helper
+﻿using System.Globalization;
+
+namespace SkypeChatExport.Helper
 {
     public static class DateTimeHelper
     {
@@ -8,6 +10,14 @@
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dateTime;
+        }
+
+        public static DateTime? ParseSkypeBirthday(string? value)
+        {
+            if (!DateTime.TryParseExact(value, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+                return null;
+
+            return date;
         }
     }
 }

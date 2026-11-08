@@ -14,6 +14,8 @@ namespace SkypeChatExport
         private readonly bool isInitalized = false;
         private bool isSkypeDatabaseLoaded = false;
 
+        private string? skypeName = string.Empty;
+
         private SkypeReader skypeReader;
         
         public MainWindow()
@@ -33,6 +35,12 @@ namespace SkypeChatExport
             try
             {
                 skypeReader = new SkypeReader(path);
+                var account = (await skypeReader.GetAccountsAsync()).FirstOrDefault();
+                Title = $"Skype Chat Viewer - {account.FullName} ({account.SkypeName})";
+
+                AccountCard.DataContext = account;
+                this.skypeName = account?.SkypeName;
+
                 Conversations.ItemsSource = await ReadConversationsAsync();
                 SetState(true);
 
@@ -94,7 +102,7 @@ namespace SkypeChatExport
 
             try
             {
-                var result = await skypeReader.LoadChatAsync(conversation, currentPage, search);
+                var result = await skypeReader.LoadChatAsync(conversation, skypeName, currentPage, search);
                 messages = result.Messages;
 
                 if (maxPages == null)
@@ -121,9 +129,7 @@ namespace SkypeChatExport
 
             if (messages == null || !messages.Any())
             {
-                if (!string.IsNullOrEmpty(TextSearch.Text))
-                    TextNoMessagesFound.Visibility = Visibility.Visible;
-
+                TextNoMessagesFound.Visibility = Visibility.Visible;
                 return;
             }
             else
@@ -233,6 +239,7 @@ namespace SkypeChatExport
                 currentConverstation = conversation;
                 currentPage = 1;
                 maxPages = null;
+                MainScrollviewer.ScrollToTop();
 
                 var messages = await LoadChatAsync(conversation);
                 RenderChats(messages, true);

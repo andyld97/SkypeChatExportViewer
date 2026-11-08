@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="SkypeChatExport.Controls.AccountCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkypeChatExport.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#8A8F98" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+        </Style>
+
+        <Style x:Key="UnknownAwareStyle" TargetType="TextBlock">
+            <Setter Property="Text" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                    <Setter Property="Text" Value="&lt;unknown&gt;" />
+                    <Setter Property="Foreground" Value="#8A8F98" />
+                    <Setter Property="FontStyle" Value="Italic" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="">
+                    <Setter Property="Text" Value="&lt;unknown&gt;" />
+                    <Setter Property="Foreground" Value="#8A8F98" />
+                    <Setter Property="FontStyle" Value="Italic" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ValueStyle" TargetType="TextBlock" BasedOn="{StaticResource UnknownAwareStyle}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="DateValueStyle" TargetType="TextBlock" BasedOn="{StaticResource ValueStyle}">
+            <Setter Property="Text" Value="{Binding Tag, RelativeSource={RelativeSource Self}, StringFormat=d}" />
+        </Style>
+
+
+        <Style x:Key="HeaderNameStyle" TargetType="TextBlock" BasedOn="{StaticResource UnknownAwareStyle}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="HeaderSubStyle" TargetType="TextBlock" BasedOn="{StaticResource UnknownAwareStyle}">
+            <Setter Property="Foreground" Value="#8A8F98" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="#2B2F36" CornerRadius="10" Margin="0,0,15,0" Padding="16" Width="320" BorderBrush="#3A3F47" BorderThickness="1">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.35" />
+        </Border.Effect>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Tag="{Binding FullName}" Style="{StaticResource HeaderNameStyle}" />
+                    <TextBlock Tag="{Binding SkypeName}" Style="{StaticResource HeaderSubStyle}" />
+                </StackPanel>
+
+                <ToggleButton x:Name="ExpanderToggle" Grid.Column="1" Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center" Cursor="Hand">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border x:Name="Bg" Background="Transparent" CornerRadius="14">
+                                <Path x:Name="Arrow" Data="M 0,0 L 5,5 L 10,0" Stroke="#8A8F98" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="0" />
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bg" Property="Background" Value="#3A3F47" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="Arrow" Property="RenderTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="180" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+            </Grid>
+
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=ExpanderToggle}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <Separator Margin="0,12" Background="#3A3F47" />
+
+                <TextBlock Text="Birthday" Style="{StaticResource LabelStyle}" Margin="0" />
+                <TextBlock Tag="{Binding Birthday}" Style="{StaticResource DateValueStyle}" />
+
+                <TextBlock Text="City" Style="{StaticResource LabelStyle}" />
+                <TextBlock Tag="{Binding City}" Style="{StaticResource ValueStyle}" />
+
+                <TextBlock Text="Emails" Style="{StaticResource LabelStyle}" />
+                <TextBlock Tag="{Binding Emails}" Style="{StaticResource ValueStyle}" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -10,6 +10,7 @@ namespace SkypeChatExport.Controls.Dialogs
         public AboutDialog()
         {
             InitializeComponent();
+            TextVersion.Text = typeof(AboutDialog).Assembly.GetName().Version.ToString(3);
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
